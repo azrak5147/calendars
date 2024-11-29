@@ -1,20 +1,50 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+// In App.js in a new project
 
-export default function App() {
+import * as React from "react";
+import { View, Text } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import CalendarsScreen from "./screens/Calendars";
+import Ionicons from "@expo/vector-icons/Ionicons";
+const Stack = createNativeStackNavigator();
+import AddCalendar from "./components/AddCalendar";
+function RootStack() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Calendars"
+        component={CalendarsScreen}
+        options={({ navigation }) => ({
+          title: "My Agenda",
+          headerStyle: {
+            backgroundColor: "white", // Green background color
+          },
+          headerTintColor: "black", // White text color
+          headerTitleStyle: {
+            fontWeight: "bold", // Bold font
+          },
+          headerRight: () => (
+            <Ionicons
+              name="add"
+              size={24}
+              color="black"
+              style={{ marginRight: 15 }}
+              onPress={() => {
+                <AddCalendar />;
+                console.log("Pressed");
+              }}
+            />
+          ),
+        })}
+      />
+    </Stack.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default function App() {
+  return (
+    <NavigationContainer>
+      <RootStack />
+    </NavigationContainer>
+  );
+}
