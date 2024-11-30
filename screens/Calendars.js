@@ -6,26 +6,20 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from "react-native";
+import { useContext } from "react";
 import { Agenda } from "react-native-calendars";
-
+import { CalendarContext } from "../context/CalendarContext";
 export default function CalendarsScreen() {
-  const data = [
-    [
-      "2022-11-21",
-      { title: "Meeting", notes: "Don't forget about the meeting" },
-    ],
-    ["2024-11-22", { title: "Birthday", notes: "Happy Birthday!" }],
-    ["2024-11-23", { title: "Birthday", notes: "Happy Birthday!" }],
-    ["2024-11-24", { title: "Birthday", notes: "Happy Birthday!" }],
-    ["2022-11-26", { title: "Task", notes: "Complete this task" }],
-  ];
+  const { data } = useContext(CalendarContext);
+  console.log("dataaaaaa", data);
 
-  // Convert the data array to the format required by Agenda
-  const formattedData = data.reduce((acc, [date, event]) => {
-    acc[date] = acc[date] ? [...acc[date], event] : [event];
-    return acc;
-  }, {});
-
+  const formattedData = data;
+  // // Convert the data array to the format required by Agenda
+  // const formattedData = data.reduce((acc, [date, event]) => {
+  //   acc[date] = acc[date] ? [...acc[date], event] : [event];
+  //   return acc;
+  // }, {});
+  console.log("formattedData", formattedData);
   return (
     <SafeAreaView style={styles.Agendacontainer}>
       <Agenda
@@ -36,6 +30,7 @@ export default function CalendarsScreen() {
             <Text style={styles.notesText}>{item.notes}</Text>
           </TouchableOpacity>
         )}
+        renderEmptyData={() => <Text>No events for this day</Text>} // Boş günlerde bilgi göster
       />
     </SafeAreaView>
   );
